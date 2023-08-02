@@ -9,20 +9,23 @@ export const useBebidasStore = defineStore('bebidas', () => {
         nombre: '',
         categoria: ''
     })
+    const recetas = ref([])
 
-    // function (), no es necesario callback y se manda a llamar en auto por el hook onMounted.
+    // "function ()", no es necesario callback "() =>" y se manda a llamar en auto por el hook onMounted.
     onMounted(async () => {
         const { data: {drinks}} = await APIService.obtenerCategorias()
         categorias.value = drinks
     })
 
-    function obtenerRecetas() {
-        console.log('Consultando API...')
+    async function obtenerRecetas() {
+        const { data: {drinks}} = await APIService.buscarRecetas(busqueda)
+        recetas.value = drinks
     }
 
     return {
         categorias,
         busqueda,
         obtenerRecetas,
+        recetas
     }
 })
